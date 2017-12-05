@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.device.dao.DeviceWarnRecordMapper">
+    <resultMap id="BaseResultMap" type="com.device.entity.DeviceWarnRecord">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="device_id" property="deviceId" jdbcType="BIGINT"/>
+        <result column="item" property="item" jdbcType="VARCHAR"/>
+        <result column="value" property="value" jdbcType="DOUBLE"/>
+        <result column="level" property="level" jdbcType="INTEGER"/>
+        <result column="warn_type" property="warnType" jdbcType="TINYINT"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, device_id, item, value, level, warn_type, status, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from device_warn_record
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectByPage" resultType="com.device.entity.DeviceWarnRecord">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM device_warn_record as w
+        <where>
+            <if test="filter.item!=null and filter.item!=''">
+                and w.item = #{filter.item}
+            </if>
+        </where>
+        ORDER BY w.create_time DESC
+        limit #{offset}, #{limit}
+    </select>
+    <select id="selectCountByPage" resultType="java.lang.Long">
+        SELECT count(*) FROM device_warn_record as w
+        <where>
+            <if test="filter.item!=null and filter.item!=''">
+                and w.item = #{filter.item}
+            </if>
+        </where>
+        ORDER BY w.create_time DESC
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM device_warn_record
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.device.entity.DeviceWarnRecord">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into device_warn_record (device_id,item, value, level, warn_type,
+        status, create_time, update_time
+        )
+        values (#{deviceId,jdbcType=BIGINT},#{item,jdbcType=VARCHAR}, #{value,jdbcType=DOUBLE},#{level,jdbcType=INTEGER}, #{warnType,jdbcType=TINYINT},
+        #{status,jdbcType=TINYINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.device.entity.DeviceWarnRecord">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into device_warn_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null">
+                device_id,
+            </if>
+            <if test="item != null">
+                item,
+            </if>
+            <if test="value != null">
+                value,
+            </if>
+            <if test="level != null">
+                level,
+            </if>
+            <if test="warnType != null">
+                warn_type,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="deviceId != null">
+                #{deviceId,jdbcType=BIGINT},
+            </if>
+            <if test="item != null">
+                #{item,jdbcType=VARCHAR},
+            </if>
+            <if test="value != null">
+                #{value,jdbcType=DOUBLE},
+            </if>
+            <if test="level != null">
+                #{level,jdbcType=INTEGER},
+            </if>
+            <if test="warnType != null">
+                #{warnType,jdbcType=TINYINT},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.device.entity.DeviceWarnRecord">
+        update device_warn_record
+        <set>
+            <if test="deviceId != null">
+                device_id = #{deviceId,jdbcType=BIGINT},
+            </if>
+            <if test="item != null">
+                item = #{item,jdbcType=VARCHAR},
+            </if>
+            <if test="value != null">
+                value = #{value,jdbcType=DOUBLE},
+            </if>
+            <if test="level != null">
+                level = #{level,jdbcType=INTEGER},
+            </if>
+            <if test="warnType != null">
+                warn_type = #{warnType,jdbcType=TINYINT},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.device.entity.DeviceWarnRecord">
+        UPDATE device_warn_record
+        SET device_id   = #{deviceId,jdbcType=BIGINT},
+            item        = #{item,jdbcType=VARCHAR},
+            value       = #{value,jdbcType=DOUBLE},
+            level       = #{level,jdbcType=INTEGER},
+            warn_type   = #{warnType,jdbcType=TINYINT},
+            status      = #{status,jdbcType=TINYINT},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

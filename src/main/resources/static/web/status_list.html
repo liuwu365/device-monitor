@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="x-rim-auto-match" content="none">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" />
+    <link rel="stylesheet" href="../css/default.css" />
+</head>
+<body>
+<div class="main">
+    <div class="top">
+        <!--TAB页面标签-->
+        <div class="shang">
+            <h1 class="myTitle whiteColor" id="title_1">万豪酒店工程管家<p class="hx" id="hx_1"></p></h1>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="content_1">
+        <div class="center">
+            <table id="gnInfo" class="deviceData info" cellpadding="0" cellspacing="0">
+                <div class="airTitle title_info">
+                    <img src="../img/phone_icon_P.png" /><span>设备运行检测</span>
+                </div>
+                <div class="down"></div>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../js/lib/jquery-2.0.3.min.js"></script>
+<script type="application/javascript">
+    //<![CDATA[
+    $(function () {
+        $.ajax({
+            type: "get",
+            url: "/interface/getDeviceNewData.json",
+            dataType: "json",
+            success: function (res) {
+                var rowHtml = "";
+                if (res != null && res != '' && res.code == 200) {
+                    var data = res.t;
+                    var prefix = "";
+                    var postfix = "";
+                    for (var i in data) {
+                        if (data[i].item == '冷库' || data[i].item == '锅炉') {
+                            prefix = "温度";
+                            postfix = "℃";
+                        } else if (data[i].item == '污水' || data[i].item == '水箱') {
+                            prefix = "水位";
+                            postfix = "cm";
+                        }
+                        rowHtml += "<tbody><tr>";
+                        rowHtml += "<td><b>" + data[i].item + "</b></td>";
+                        rowHtml += "<td></td>";
+                        rowHtml += "<td></td>";
+                        rowHtml += "</tr>";
+                        rowHtml += "<tr>";
+                        rowHtml += "<td></td>";
+                        rowHtml += "<td>实时" + prefix + "：" + data[i].value + postfix + "</td>";
+                        rowHtml += "<td>历史平均" + prefix + "：" + data[i].avgValue + postfix + "</td>";
+                        rowHtml += "</tr></tbody>";
+                    }
+                    $(".deviceData").append(rowHtml);
+                } else {
+                    $(".deviceData").append("<tr><td colspan='3'>暂无数据</td></tr>");
+                }
+            }
+        });
+    });
+    function help(item) {
+        if (item == '冷库') {
+            $(".coldWarn tbody").append(rowHtml);
+        } else if (item == '污水') {
+            $(".sewageWarn tbody").append(rowHtml);
+        } else if (item == '水箱') {
+            $(".waterWarn tbody").append(rowHtml);
+        } else if (item == '锅炉') {
+            $(".boiler tbody").append(rowHtml);
+        }
+    }
+    //]]>
+</script>
+</html>

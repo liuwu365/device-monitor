@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="x-rim-auto-match" content="none">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" />
+    <link rel="stylesheet" href="../css/default.css" />
+    <style type="text/css">
+        #main1, #main2, #main3, #main4{ padding:3%; }
+    </style>
+</head>
+
+<body>
+<div class="main">
+    <div class="top">
+        <div class="shang">
+            <h1 class="myTitle whiteColor" id="title_1">万豪酒店工程管家<p class="hx" id="hx_1"></p></h1>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="content_1">
+        <div class="center">
+            <div class="airTitle title_info">
+                <img src="../img/phone_icon_P.png" /><span>设备运行检测报表</span>
+            </div>
+            <div class="down"></div>
+            <div id="main1" style="width: 100%;height:400px;"></div>
+            <div id="main2" style="width: 100%;height:400px;"></div>
+            <div id="main3" style="width: 100%;height:400px;"></div>
+            <div id="main4" style="width: 100%;height:400px;"></div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../js/lib/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../js/Common.js"></script>
+<script type="text/javascript" src="../js/lib/echarts.common.min.js"></script>
+<script type="text/javascript">
+    //<![CDATA[
+    $(function () {
+        var item = getQueryString('item');
+        var coldDataTime = [];
+        var coldDataInfo = [];
+        $.ajax({
+            type: "post",
+            url: "/interface/getDeviceHistoryData.json",
+            dataType: "json",
+            data: {item: item, offset: 0, limit: 10},
+            success: function (res) {
+                console.log(res);
+                if (res != null && res != '' && res.code == 200) {
+                    var data = res.t.result;
+                    for (var i in data) {
+                        coldDataTime.push(new Date(data[i].dateTime).pattern("yyyy-MM-dd HH:mm:ss"));
+                        coldDataInfo.push(data[i].value);
+                    }
+                    var myChart1 = echarts.init(document.getElementById('main1'));
+                    var option1 = {
+                        title: {
+                            text: item + '报表'
+                        },
+                        tooltip: {},
+                        legend: {
+                            data: [item]
+                        },
+                        xAxis: {
+                            data: coldDataTime
+                        },
+                        yAxis: {},
+                        series: [{
+                            name: item,
+                            type: 'line',
+                            data: coldDataInfo
+                        }]
+                    };
+                    myChart1.setOption(option1);
+                }
+            }
+        });
+    });
+    //]]>
+</script>
+</html>

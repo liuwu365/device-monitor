@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.device.dao.DeviceWarnRuleMapper">
+    <resultMap id="BaseResultMap" type="com.device.entity.DeviceWarnRule">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="item" property="item" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="SMALLINT"/>
+        <result column="min_value" property="minValue" jdbcType="DOUBLE"/>
+        <result column="max_value" property="maxValue" jdbcType="DOUBLE"/>
+        <result column="level" property="level" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, item, status, min_value, max_value, level, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from device_warn_rule
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectWarnRule" resultType="com.device.entity.DeviceWarnRule">
+        select
+        <include refid="Base_Column_List"/>
+        from device_warn_rule
+        where item = #{item} and status = #{status} ORDER BY level DESC
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM device_warn_rule
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.device.entity.DeviceWarnRule">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into device_warn_rule (item, status, min_value,
+        max_value,level, create_time, update_time
+        )
+        values (#{item,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, #{minValue,jdbcType=DOUBLE},
+        #{maxValue,jdbcType=DOUBLE},#{level,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.device.entity.DeviceWarnRule">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into device_warn_rule
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="item != null">
+                item,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="minValue != null">
+                min_value,
+            </if>
+            <if test="maxValue != null">
+                max_value,
+            </if>
+            <if test="level != null">
+                level,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="item != null">
+                #{item,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="minValue != null">
+                #{minValue,jdbcType=DOUBLE},
+            </if>
+            <if test="maxValue != null">
+                #{maxValue,jdbcType=DOUBLE},
+            </if>
+            <if test="level != null">
+                #{level,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.device.entity.DeviceWarnRule">
+        update device_warn_rule
+        <set>
+            <if test="item != null">
+                item = #{item,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="minValue != null">
+                min_value = #{minValue,jdbcType=DOUBLE},
+            </if>
+            <if test="maxValue != null">
+                max_value = #{maxValue,jdbcType=DOUBLE},
+            </if>
+            <if test="level != null">
+                level = #{level,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.device.entity.DeviceWarnRule">
+        UPDATE device_warn_rule
+        SET item        = #{item,jdbcType=VARCHAR},
+            status      = #{status,jdbcType=SMALLINT},
+            min_value   = #{minValue,jdbcType=DOUBLE},
+            max_value   = #{maxValue,jdbcType=DOUBLE},
+            level       = #{level,jdbcType=INTEGER},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

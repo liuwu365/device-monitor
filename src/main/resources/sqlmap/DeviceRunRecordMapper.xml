@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.device.dao.DeviceRunRecordMapper">
+    <resultMap id="BaseResultMap" type="com.device.entity.DeviceRunRecord">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="item" property="item" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="TINYINT"/>
+        <result column="value" property="value" jdbcType="DOUBLE"/>
+        <result column="value2" property="value2" jdbcType="DOUBLE"/>
+        <result column="date_time" property="dateTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, item, type, value, value2, date_time, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from device_run_record
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectCountByPage" resultType="java.lang.Long">
+        SELECT count(*) FROM device_run_record as d
+        <where>
+            <if test="filter.startDate!=null and filter.startDate!=''">
+                <![CDATA[  and d.date_time>#{filter.startDate} ]]>
+            </if>
+            <if test="filter.endDate!=null and filter.endDate!=''">
+                <![CDATA[  and d.date_time<=#{filter.endDate}   ]]>
+            </if>
+            <if test="filter.item!=null and filter.item!=''">
+                and d.item = #{filter.item}
+            </if>
+        </where>
+        ORDER BY d.date_time ASC
+    </select>
+    <select id="selectByPage" resultType="com.device.entity.DeviceRunRecord">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM device_run_record as d
+        <where>
+            <if test="filter.startDate!=null and filter.startDate!=''">
+                <![CDATA[  and d.date_time>#{filter.startDate} ]]>
+            </if>
+            <if test="filter.endDate!=null and filter.endDate!=''">
+                <![CDATA[  and d.date_time<=#{filter.endDate}   ]]>
+            </if>
+            <if test="filter.item!=null and filter.item!=''">
+                and d.item = #{filter.item}
+            </if>
+        </where>
+        ORDER BY d.date_time ASC
+        limit #{offset}, #{limit}
+    </select>
+    <select id="selectNewData" resultType="com.device.entity.DeviceRunRecord">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM device_run_record
+        WHERE item = #{item}
+        ORDER BY date_time DESC
+        LIMIT 1
+    </select>
+    <select id="selectNewDatas" resultType="com.device.entity.DeviceRunRecord">
+        SELECT a.*
+        FROM (
+        SELECT *
+        FROM device_run_record
+        WHERE item IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        ORDER BY date_time DESC
+        ) AS a
+        GROUP BY a.item
+    </select>
+    <select id="selectAvgValue" resultType="java.lang.Double">
+        SELECT AVG(`value`)
+        FROM device_run_record
+        WHERE item = #{item}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM device_run_record
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.device.entity.DeviceRunRecord">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert IGNORE into device_run_record (item, type, value,
+        value2, date_time, create_time,
+        update_time)
+        values (#{item,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{value,jdbcType=DOUBLE},
+        #{value2,jdbcType=DOUBLE}, #{dateTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP},
+        #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.device.entity.DeviceRunRecord">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert IGNORE into device_run_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="item != null">
+                item,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="value != null">
+                value,
+            </if>
+            <if test="value2 != null">
+                value2,
+            </if>
+            <if test="dateTime != null">
+                date_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="item != null">
+                #{item,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=TINYINT},
+            </if>
+            <if test="value != null">
+                #{value,jdbcType=DOUBLE},
+            </if>
+            <if test="value2 != null">
+                #{value2,jdbcType=DOUBLE},
+            </if>
+            <if test="dateTime != null">
+                #{dateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.device.entity.DeviceRunRecord">
+        update device_run_record
+        <set>
+            <if test="item != null">
+                item = #{item,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=TINYINT},
+            </if>
+            <if test="value != null">
+                value = #{value,jdbcType=DOUBLE},
+            </if>
+            <if test="value2 != null">
+                value2 = #{value2,jdbcType=DOUBLE},
+            </if>
+            <if test="dateTime != null">
+                date_time = #{dateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.device.entity.DeviceRunRecord">
+        UPDATE device_run_record
+        SET item        = #{item,jdbcType=VARCHAR},
+            type        = #{type,jdbcType=TINYINT},
+            value       = #{value,jdbcType=DOUBLE},
+            value2      = #{value2,jdbcType=DOUBLE},
+            date_time   = #{dateTime,jdbcType=TIMESTAMP},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

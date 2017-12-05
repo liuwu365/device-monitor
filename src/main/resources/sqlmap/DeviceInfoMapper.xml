@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.device.dao.DeviceInfoMapper">
+    <resultMap id="BaseResultMap" type="com.device.entity.DeviceInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="item" property="item" jdbcType="VARCHAR"/>
+        <result column="device_uid" property="deviceUid" jdbcType="VARCHAR"/>
+        <result column="device_type" property="deviceType" jdbcType="VARCHAR"/>
+        <result column="longitude" property="longitude" jdbcType="DOUBLE"/>
+        <result column="latitude" property="latitude" jdbcType="DOUBLE"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="SMALLINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, item, device_uid, device_type, longitude, latitude, address, status, create_time, update_time
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from device_info
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="selectDeviceList" resultType="com.device.entity.DeviceInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from device_info
+        where status = #{status}
+    </select>
+    <select id="selectByDeviceUid" resultType="com.device.entity.DeviceInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from device_info
+        where device_uid = #{deviceUid}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM device_info
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="com.device.entity.DeviceInfo">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into device_info (item, device_uid, device_type,
+        longitude, latitude,address, status,
+        create_time, update_time)
+        values (#{item,jdbcType=VARCHAR}, #{deviceUid,jdbcType=VARCHAR}, #{deviceType,jdbcType=VARCHAR},
+        #{longitude,jdbcType=DOUBLE}, #{latitude,jdbcType=DOUBLE},#{address,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT},
+        #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" parameterType="com.device.entity.DeviceInfo">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into device_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="item != null">
+                item,
+            </if>
+            <if test="deviceUid != null">
+                device_uid,
+            </if>
+            <if test="deviceType != null">
+                device_type,
+            </if>
+            <if test="longitude != null">
+                longitude,
+            </if>
+            <if test="latitude != null">
+                latitude,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="item != null">
+                #{item,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceUid != null">
+                #{deviceUid,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceType != null">
+                #{deviceType,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="latitude != null">
+                #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.device.entity.DeviceInfo">
+        update device_info
+        <set>
+            <if test="item != null">
+                item = #{item,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceUid != null">
+                device_uid = #{deviceUid,jdbcType=VARCHAR},
+            </if>
+            <if test="deviceType != null">
+                device_type = #{deviceType,jdbcType=VARCHAR},
+            </if>
+            <if test="longitude != null">
+                longitude = #{longitude,jdbcType=DOUBLE},
+            </if>
+            <if test="latitude != null">
+                latitude = #{latitude,jdbcType=DOUBLE},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=SMALLINT},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.device.entity.DeviceInfo">
+        UPDATE device_info
+        SET item        = #{item,jdbcType=VARCHAR},
+            device_uid  = #{deviceUid,jdbcType=VARCHAR},
+            device_type = #{deviceType,jdbcType=VARCHAR},
+            longitude   = #{longitude,jdbcType=DOUBLE},
+            latitude    = #{latitude,jdbcType=DOUBLE},
+            address     = #{address,jdbcType=VARCHAR},
+            status      = #{status,jdbcType=SMALLINT},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>
