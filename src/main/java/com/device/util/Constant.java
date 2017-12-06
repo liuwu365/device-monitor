@@ -8,6 +8,7 @@ package com.device.util;
 public class Constant {
     public static final String BLACK_LIST = "black_list";
     public static final String BLACK_LIST_TIP = "由于您访问过于频繁，已经被系统添加在黑名单中了";
+    public static final String SESSION_USER = "h5User";
 
 
 }

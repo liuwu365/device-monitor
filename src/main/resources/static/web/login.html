@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="x-rim-auto-match" content="none" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" />
+    <link rel="stylesheet" href="../css/base.css" />
+    <style type="text/css">
+        body{ color:#333; font-size:13px; }
+        input, select, textarea{ color:#333; }
+        .bg{ width:100%; height:100%; position:absolute; background:url(../img/bg.jpg) }
+        .panel{ background:#fff; }
+        form .form-group:last-child{ padding-bottom:0; }
+        /*.passcode{ position:absolute; right:0; bottom:0; height:32px; margin:1px; border-left:solid 1px #ddd; text-align:center; line-height:32px; border-radius:0 4px 4px 0; }*/
+        ul, li{ list-style-type:none; }
+        .field-icon-right .icon{ bottom:0px; top:auto }
+        .errorTip{ color:red; }
+    </style>
+</head>
+
+<body>
+<div class="bg"></div>
+<div class="container">
+    <div class="line bouncein">
+        <div class="xs6 xm4 xs3-move xm4-move">
+            <div style="height:100px;"></div>
+            <form action="" method="post" class="loginForm" autocomplete="off">
+                <div class="panel loginbox">
+                    <div class="text-center margin-big padding-big-top">
+                        <h1>后台管理中心</h1>
+                    </div>
+                    <div class="panel-body" style="padding:30px; padding-bottom:10px; padding-top:10px;">
+                        <div class="form-group">
+                            <div class="field field-icon-right">
+                                <input type="text" class="account input input-big" name="account" placeholder="登录账号" />
+                                <span class="icon icon-user margin-small"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="field field-icon-right">
+                                <input type="password" class="password input input-big" name="password" placeholder="登录密码" />
+                                <span class="icon icon-key margin-small"></span>
+                            </div>
+                        </div>
+                        <div class="errorTip"></div>
+                        <!--<div class="form-group">
+                            <div class="field">
+                                <input type="text" class="input input-big" name="code" placeholder="填写右侧的验证码" />
+                                <img src="images/passcode.jpg" alt="" width="100" height="32" class="passcode" style="height:43px;cursor:pointer;" onClick="this.src=this.src+'?'" />
+                            </div>
+                        </div>-->
+                    </div>
+                    <div style="padding:30px;">
+                        <input type="button" class="loginBtn button button-block bg-main text-big input-big" value="登录" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../js/lib/jquery-2.0.3.min.js"></script>
+<script type="application/javascript">
+    //<![CDATA[
+    $(function () {
+        $(".loginBtn").click(function () {
+            $.ajax({
+                type: "post",
+                url: "/interface/user/login.json",
+                dataType: "json",
+                data: {account: $(".account").val(), password: $(".password").val()},
+                success: function (res) {
+                    console.log(res);
+                    if (res.code == 200) {
+                        window.location.href = "/web/status_list.html";
+                    } else {
+                        $(".errorTip").text(res.msg);
+                    }
+                }
+            });
+        });
+    });
+    //]]>
+</script>
+</body>
+</html>

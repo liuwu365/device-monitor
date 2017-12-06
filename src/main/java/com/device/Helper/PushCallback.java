@@ -94,6 +94,7 @@ public class PushCallback implements MqttCallback {
     }
 
     private void addDeviceData(String item, double value, double value2, String uploadTime) {
+        logger.info("添加设备运行记录及报警验证，item={}|value={}|value2={}|uploadTime={}", item, value, value2, uploadTime);
         try {
             int deviceType = CommonHelper.getItemType(item);
             DeviceRunRecord record = new DeviceRunRecord();
@@ -119,8 +120,8 @@ public class PushCallback implements MqttCallback {
                         warnRecord.setCreateTime(new Date());
                         warnRecord.setUpdateTime(new Date());
                         deviceWarnRecordMapper.insertSelective(warnRecord);
+                        break;
                     }
-                    break;
                 }
             }
         } catch (Exception e) {
