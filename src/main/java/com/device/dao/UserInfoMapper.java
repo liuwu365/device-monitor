@@ -2,7 +2,9 @@ package com.device.dao;
 
 import com.device.entity.UserInfo;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface UserInfoMapper {
     int deleteByPrimaryKey(Long id);
 

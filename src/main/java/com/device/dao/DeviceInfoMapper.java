@@ -2,9 +2,11 @@ package com.device.dao;
 
 import com.device.entity.DeviceInfo;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface DeviceInfoMapper {
     int deleteByPrimaryKey(Long id);
 

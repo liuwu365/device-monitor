@@ -2,9 +2,10 @@ package com.device.dao;
 
 import com.device.entity.DeviceWarnRecord;
 import com.device.entity.Page;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public interface DeviceWarnRecordMapper {
     int deleteByPrimaryKey(Long id);
 

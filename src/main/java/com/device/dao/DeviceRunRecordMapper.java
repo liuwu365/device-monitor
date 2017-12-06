@@ -3,9 +3,10 @@ package com.device.dao;
 import com.device.entity.DeviceRunRecord;
 import com.device.entity.Page;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public interface DeviceRunRecordMapper {
     int deleteByPrimaryKey(Long id);
 
