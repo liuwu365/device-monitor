@@ -4,8 +4,8 @@ package com.device.enums;
  * Created by Administrator on 2017/12/1.
  */
 public enum UserStatus {
-    OPEN(1,"启用"),
-    CLOSE(2,"禁用");
+    CLOSE(1,"禁用"),
+    OPEN(2,"启用");
 
     private int code;
     private String desc;

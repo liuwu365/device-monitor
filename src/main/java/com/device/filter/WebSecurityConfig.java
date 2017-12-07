@@ -1,5 +1,9 @@
 package com.device.filter;
 
+import com.device.entity.UserInfo;
+import com.device.util.CheckUtil;
+import com.device.util.SessionUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
@@ -27,27 +31,38 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
         // 排除配置
         addInterceptor.excludePathPatterns("/error");
         addInterceptor.excludePathPatterns("/login**");
+        addInterceptor.excludePathPatterns("/interface/user/login**");
 
         // 拦截配置
-        //addInterceptor.addPathPatterns("/**");
+        addInterceptor.addPathPatterns("/**");
     }
 
     private class SecurityInterceptor extends HandlerInterceptorAdapter {
         @Override
         public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
             // 获得用户请求的URI
-            //String path = request.getRequestURI();
-            //UserInfo userInfo = SessionUtil.getUser(request);//当前登录用户
-            //System.out.println(String.format("得到用户的请求:%s ,当前用户:%s", path, CheckUtil.isEmpty(userInfo) ? null : userInfo.getId()));
-            //if (!CheckUtil.isEmpty(userInfo)) {
-            //    return true;
-            //} else {
-            //    response.sendRedirect("/interface/user/login");
-            //    return false;
-            //}
+            String path = request.getRequestURI();
+            UserInfo userInfo = SessionUtil.getUser(request);//当前登录用户
+            String type = request.getHeader("X-Requested-With");// XMLHttpRequest
 
-            return true;
+            System.out.println(String.format("得到用户的请求:%s ,当前用户:%s ,type:%s", path, CheckUtil.isEmpty(userInfo) ? null : userInfo.getId(), type));
+            if (!CheckUtil.isEmpty(userInfo)) {
+                return true;
+            } else {
+                // 转发
+                if (StringUtils.equals("XMLHttpRequest", type)) {
+                    // ajax请求
+                    response.setHeader("SESSIONSTATUS", "noSession");
+                    response.setHeader("CONTEXTPATH", "/login");
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                    return false;
+                } else {
+                    response.sendRedirect("/login");
+                    return false;
+                }
+            }
         }
     }
+
 
 }

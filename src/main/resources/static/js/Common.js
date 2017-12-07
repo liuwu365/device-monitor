@@ -47,6 +47,26 @@ $(function () {
             });
     }
 
+
+    $.ajaxSetup({
+        //设置ajax请求结束后的执行动作
+        complete: function (req, status, err) {
+            var auth = req.getResponseHeader("SESSIONSTATUS");
+            var auth_url = req.getResponseHeader("CONTEXTPATH");
+            if (auth == 'noSession' && auth_url) {
+                window.location.href = auth_url;
+            }
+        }, error: function (req, status, err) {
+            var auth = req.getResponseHeader("SESSIONSTATUS");
+            var auth_url = req.getResponseHeader("CONTEXTPATH");
+            if (auth == 'noSession' && auth_url) {
+                window.location.href = auth_url;
+            }
+        }
+
+    });
+
+
 });
 
 //获取url中的参数

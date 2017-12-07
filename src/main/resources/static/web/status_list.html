@@ -30,6 +30,7 @@
 </div>
 </body>
 <script type="text/javascript" src="../js/lib/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../js/Common.js"></script>
 <script type="application/javascript">
     //<![CDATA[
     $(function () {
@@ -67,6 +68,13 @@
                     $(".deviceData").append("<tr><td colspan='3'>暂无数据</td></tr>");
                 }
             }
+            /*,error: function (req, status, err) {
+                var auth = req.getResponseHeader("SESSIONSTATUS");
+                var auth_url = req.getResponseHeader("CONTEXTPATH");
+                if (auth == 'noSession' && auth_url) {
+                    window.location.href = auth_url;
+                }
+            }*/
         });
     });
     //]]>

@@ -18,7 +18,7 @@ public class StartController {
 
     @RequestMapping(value = {"", "/", "/login"}, method = RequestMethod.GET)
     public String toLoginPage() {
-        logger.info("request login.html ");
+        logger.info("StartController request login.html ");
         return loginPage;
     }
 
