@@ -7,6 +7,14 @@ html{ -ms-text-size-adjust:100%; -webkit-text-size-adjust:100%; -webkit-backgrou
 .main .center{ height:auto; }
 .main .center .info{ width:100%; }
 .main .center .info .phone{ width:15px; }
+
+.main .bottom-menu{ text-align:center; margin-top:80px; }
+.main .bottom-menu button{ text-align:center; height:30px; width:80px; }
+.main .bottom-menu button:not(:first-child){ margin-left:28px; }
+.main .bottom-menu .deviceHistoryBtn{ color:#00AAEE; }
+.main .bottom-menu .deviceWarnBtn{ color:red; }
+.main .bottom-menu .reportBtn{ color:#00AA00; }
+
 .main .center .airTitle{ height:40px; background-color:#ECECEC; padding-left:12px; border-bottom:1px solid #D6D6D6; }
 .main .center .airTitle img{ width:28px; height:28px; vertical-align:middle; }
 .main .center .airTitle span{ margin-left:10px; vertical-align:middle; line-height:40px; font-size:15px; font-weight:bold; }

@@ -35,15 +35,15 @@ public class MyClientMQTT {
     private DeviceInfoMapper deviceInfoMapper;
 
     //启动定时器
-    //@PostConstruct
-    //public void start() {
-    //    //查询运行状态的所有设备
-    //    List<DeviceInfo> list = deviceInfoMapper.selectDeviceList(DeviceStatus.RUN.getCode());
-    //    for (DeviceInfo device : list) {
-    //        startMqtt(device.getDeviceUid());
-    //    }
-    //    System.out.println("启动 startMqtt !");
-    //}
+    @PostConstruct
+    public void start() {
+        //查询运行状态的所有设备
+        List<DeviceInfo> list = deviceInfoMapper.selectDeviceList(DeviceStatus.RUN.getCode());
+        for (DeviceInfo device : list) {
+            startMqtt(device.getDeviceUid());
+        }
+        System.out.println("启动 startMqtt !");
+    }
 
     public void startMqtt(String deviceUID) {
         try {
