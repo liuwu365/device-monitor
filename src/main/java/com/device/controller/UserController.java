@@ -38,7 +38,7 @@ public class UserController {
     @RequestMapping(value = {"", "/", "/login"}, method = RequestMethod.GET)
     public String toLoginPage(Model model) {
         logger.info("UserController request login.html ");
-        return "static/web/login";
+        return "web/login";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)

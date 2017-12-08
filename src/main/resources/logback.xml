@@ -1,12 +1,31 @@
 <configuration>
+    <property name="PROJECT_ID" value="gamble-manage-actuator"/>
+    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>logs/${PROJECT_ID}.json</File>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <maxIndex>10</maxIndex>
+            <FileNamePattern>logs/${PROJECT_ID}.json.%i</FileNamePattern>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <MaxFileSize>16MB</MaxFileSize>
+        </triggeringPolicy>
+    </appender>
+
+    <logger name="com.lottery.gamble.manage" additivity="false" level="INFO">
+        <appender-ref ref="file"/>
+    </logger>
+    <root level="WARN">
+        <appender-ref ref="file"/>
+    </root>
 
     <!-- error log start -->
-    <appender name="ERROR" class="ch.qos.logback.core.ConsoleAppender">
-        <!--<file>logs/error.log</file>
+    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/error.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <maxHistory>7</maxHistory>
-        </rollingPolicy>-->
+        </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%level|%logger{1}|%msg%n</pattern>
         </encoder>
@@ -17,41 +36,40 @@
     </logger>
     <!-- error log end -->
 
-    <!-- stdout log start -->
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <!--<file>logs/stdout.log</file>
+    <!--stdout log start -->
+    <appender name="STDOUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/stdout.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/stdout.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <maxHistory>7</maxHistory>
-        </rollingPolicy>-->
+        </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%level|%logger{1}|%msg%n</pattern>
         </encoder>
     </appender>
+    <!--<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%level|%logger{1}|%msg%n</pattern>
+        </encoder>
+    </appender>-->
 
-    <logger name="stdout" level="INFO" additivity="false">
+    <logger name="com.lottery.gamble.manage" level="INFO" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
     <!-- stdout log end -->
 
-    <!-- sql log start -->
-    <appender name="SQL" class="ch.qos.logback.core.ConsoleAppender">
-        <!--<file>logs/sql.log</file>
+    <!-- stdout log start -->
+    <appender name="ACCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/access.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/sql.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>logs/access.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <maxHistory>7</maxHistory>
-        </rollingPolicy>-->
+        </rollingPolicy>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%msg%n</pattern>
         </encoder>
     </appender>
 
-    <logger name="sql" level="INFO" additivity="false">
-        <appender-ref ref="SQL"/>
-    </logger>
-    <!-- sql log end -->
-
-    <!-- druid log start -->
     <appender name="DRUID" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logs/druid.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -66,22 +84,36 @@
     <logger name="com.alibaba.druid" level="INFO" additivity="false">
         <appender-ref ref="DRUID"/>
     </logger>
-    <!-- druid log end -->
 
-    <!-- stdout log start -->
-    <appender name="ACCESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logs/access.log</file>
+    <appender name="SQL" class="ch.qos.logback.core.ConsoleAppender">
+        <!--<file>logs/sql.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>logs/access.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>logs/sql.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <maxHistory>7</maxHistory>
-        </rollingPolicy>
+        </rollingPolicy>-->
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%msg%n</pattern>
         </encoder>
     </appender>
 
+    <logger name="sql" level="INFO" additivity="false">
+        <appender-ref ref="SQL"/>
+    </logger>
+
     <logger name="access" level="INFO" additivity="false">
         <appender-ref ref="ACCESS"/>
+    </logger>
+    <!-- stdout log end -->
+
+    <!-- stdout log start -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}|%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="console" level="debug" additivity="false">
+        <appender-ref ref="CONSOLE"/>
     </logger>
     <!-- stdout log end -->
 
@@ -100,10 +132,14 @@
     <logger name="com.lottery.gamble.common.stat" level="INFO" additivity="false">
         <appender-ref ref="METRICS"/>
     </logger>
+
+    <logger name="org.apache.shiro.session" level="warn" additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
     <!-- metrics log end -->
 
-    <root level="WARN">
-        <appender-ref ref="STDOUT"/>
+    <root level="INFO">
+        <appender-ref ref="CONSOLE"/>
     </root>
 
 </configuration>
