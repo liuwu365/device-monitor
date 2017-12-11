@@ -42,6 +42,11 @@
         </where>
         ORDER BY w.create_time DESC
     </select>
+    <select id="selectNewWarn" resultType="com.device.entity.DeviceWarnRecord">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM device_warn_record WHERE item=#{item} AND `status`=1 ORDER BY create_time DESC LIMIT 1
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
         DELETE FROM device_warn_record
         WHERE id = #{id,jdbcType=BIGINT}

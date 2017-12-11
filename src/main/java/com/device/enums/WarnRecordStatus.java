@@ -6,7 +6,8 @@ package com.device.enums;
 public enum WarnRecordStatus {
     WAIT(1, "等待处理"),
     PROCESS(2, "处理中"),
-    FINISH(3, "已处理");
+    FINISH_HUMAN(3, "人工已处理"),
+    FINISH_SYS(4, "系统已处理");
 
     private int code;
     private String desc;

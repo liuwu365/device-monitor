@@ -45,8 +45,7 @@ $(function () {
             function (m, i) {
                 return args[i];
             });
-    }
-
+    };
 
     $.ajaxSetup({
         //设置ajax请求结束后的执行动作
@@ -63,9 +62,7 @@ $(function () {
                 window.location.href = auth_url;
             }
         }
-
     });
-
 
 });
 

@@ -1,19 +1,18 @@
 @charset "UTF-8";
 *{ margin:0px; padding:0px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; }
 html{ -ms-text-size-adjust:100%; -webkit-text-size-adjust:100%; -webkit-background-size:cover; -moz-background-size:cover; -o-background-size:cover; background-size:cover; }
-.main{ }
-.main .top{ height:48px; background-color:#A52017; }
+.main{}
+.main .top{ height:48px; background-color:deepskyblue; }
 .main .top h2{ text-align:center; color:#125D92; }
 .main .center{ height:auto; }
 .main .center .info{ width:100%; }
 .main .center .info .phone{ width:15px; }
 
-.main .bottom-menu{ text-align:center; margin-top:80px; }
-.main .bottom-menu button{ text-align:center; height:30px; width:80px; }
-.main .bottom-menu button:not(:first-child){ margin-left:28px; }
-.main .bottom-menu .deviceHistoryBtn{ color:#00AAEE; }
-.main .bottom-menu .deviceWarnBtn{ color:red; }
-.main .bottom-menu .reportBtn{ color:#00AA00; }
+.main .bottom-menu{position: fixed;bottom: 0px;text-align: center;}
+.main .bottom-menu ul{height: 100%;padding-top: 3px;}
+.main .bottom-menu ul li{width: 25%;height: 100%;float: left;list-style-type: none;font-size: 12px;color:darkgray;}
+.main .bottom-menu ul li img{height: 25px;}
+.myActive{color: dodgerblue !important;}
 
 .main .center .airTitle{ height:40px; background-color:#ECECEC; padding-left:12px; border-bottom:1px solid #D6D6D6; }
 .main .center .airTitle img{ width:28px; height:28px; vertical-align:middle; }
@@ -23,7 +22,7 @@ table{ height:40px; font-size:13px; }
 table tr{ background:#F2F2F2; }
 table tr:nth-child(2n){ background:#FFFFFF; }
 table tr td{ height:35px; }
-.main .shang{ color:#c37e7b; float:left; width:100%; height:100%; text-align:center; }
+.main .shang{ color:gray; float:left; width:100%; height:100%; text-align:center; }
 .main .shang h1.title{ font-size:15px; font-family:"黑体-简"; font-weight:normal; position:relative; float:left; width:25%; height:100%; padding:10px 0; }
 .main .shang .hx{ position:absolute; float:left; width:90%; height:5px; border-radius:3px; bottom:0; margin:0 5% 10px; display:none; }
 .main .content_1, .content_2, .content_3, .content_4{ height:100%; }
@@ -39,4 +38,4 @@ div.title_info{ position:relative; }
 div.phoneDiv{ background:url("../img/icon_phone.png") no-repeat; background-position:center; background-size:15px 23px; }
 .myTitle{ font-size:15px; font-family:"黑体-简"; font-weight:normal; height:100%; padding-top:15px; text-align:center; }
 /*加载更多*/
-.js-load-more{ padding:0 15px; width:120px; height:30px; background-color:#D31733; color:#fff; line-height:30px; text-align:center; border-radius:5px; margin:20px auto; border:0 none; font-size:16px; display:none; }
+.js-load-more{ padding:0 15px; width:120px; height:30px; background-color:dodgerblue; color:#fff; line-height:30px; text-align:center; border-radius:5px; margin:20px auto; border:0 none; font-size:16px; display:none; }

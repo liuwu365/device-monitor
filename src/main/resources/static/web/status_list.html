@@ -24,14 +24,22 @@
         <div class="center">
             <table id="gnInfo" class="deviceData info" cellpadding="0" cellspacing="0">
                 <div class="airTitle title_info">
-                    <img src="../img/phone_icon_P.png" /><span>设备运行检测</span>
+                    <img src="../img/status_2.png" /><span>设备运行检测</span>
                 </div>
                 <div class="down"></div>
             </table>
-            <div class="bottom-menu">
+            <!--<div class="bottom-menu">
                 <button class="deviceHistoryBtn" onclick="window.location.href='device_history.html?item=冷库'">历史数据</button>
                 <button class="deviceWarnBtn" onclick="window.location.href='warn_list.html?item=冷库'">报警数据</button>
                 <button class="reportBtn" onclick="window.location.href='report.html?item=冷库'">报表数据</button>
+            </div>-->
+            <div class="bottom-menu title_info">
+                <ul>
+                    <li class="statusData" onclick="window.location.href='status_list.html'"><img src="../img/status_1.png" /><br />实时数据</li>
+                    <li class="historyData" onclick="window.location.href='device_history.html?item=冷库'"><img src="../img/history_1.png" /><br />历史记录</li>
+                    <li class="warnData" onclick="window.location.href='warn_list.html?item=冷库'"><img src="../img/warn_1.png" /><br />报警数据</li>
+                    <li class="reportData" onclick="window.location.href='report.html?item=冷库'"><img src="../img/report_1.png" /><br />报表数据</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -42,6 +50,9 @@
 <script type="application/javascript">
     //<![CDATA[
     $(function () {
+        $(".bottom-menu li").removeClass('myActive');
+        $(".bottom-menu .statusData").addClass('myActive');
+        $(".bottom-menu .statusData img").attr('src', '../img/status_2.png');
         $.ajax({
             type: "get",
             url: "/interface/getDeviceNewData.json",
@@ -77,12 +88,12 @@
                 }
             }
             /*,error: function (req, status, err) {
-                var auth = req.getResponseHeader("SESSIONSTATUS");
-                var auth_url = req.getResponseHeader("CONTEXTPATH");
-                if (auth == 'noSession' && auth_url) {
-                    window.location.href = auth_url;
-                }
-            }*/
+             var auth = req.getResponseHeader("SESSIONSTATUS");
+             var auth_url = req.getResponseHeader("CONTEXTPATH");
+             if (auth == 'noSession' && auth_url) {
+             window.location.href = auth_url;
+             }
+             }*/
         });
     });
     //]]>

@@ -24,7 +24,7 @@
         <div class="center">
             <table id="gnInfo" class="deviceHistoryData info" cellpadding="0" cellspacing="0">
                 <div class="airTitle title_info">
-                    <img src="../img/phone_icon_P.png" /><span class="itemName">历史数据</span>
+                    <img src="../img/history_2.png" /><span class="itemName">历史数据</span>
                 </div>
                 <div class="down"></div>
                 <tr co>
@@ -37,10 +37,18 @@
             </table>
             <!--加载更多按钮-->
             <div class="js-load-more">加载更多</div>
-            <div class="bottom-menu">
+            <!--<div class="bottom-menu">
                 <button class="statusBtn" onclick="window.location.href='status_list.html'">实时数据</button>
                 <button class="deviceWarnBtn" onclick="window.location.href='warn_list.html?item=冷库'">报警数据</button>
                 <button class="reportBtn" onclick="window.location.href='report.html?item=冷库'">报表数据</button>
+            </div>-->
+            <div class="bottom-menu title_info">
+                <ul>
+                    <li class="statusData" onclick="window.location.href='status_list.html'"><img src="../img/status_1.png" /><br />实时数据</li>
+                    <li class="historyData" onclick="window.location.href='device_history.html?item=冷库'"><img src="../img/history_1.png" /><br />历史记录</li>
+                    <li class="warnData" onclick="window.location.href='warn_list.html?item=冷库'"><img src="../img/warn_1.png" /><br />报警数据</li>
+                    <li class="reportData" onclick="window.location.href='report.html?item=冷库'"><img src="../img/report_1.png" /><br />报表数据</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -51,6 +59,9 @@
 <script type="text/javascript">
     //<![CDATA[
     $(function () {
+        $(".bottom-menu li").removeClass('myActive');
+        $(".bottom-menu .historyData").addClass('myActive');
+        $(".bottom-menu .historyData img").attr('src', '../img/history_2.png');
         var counter = 0;
         var pageStart = 0;
         var pageSize = 15;

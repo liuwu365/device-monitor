@@ -2,9 +2,11 @@ package com.device.dao;
 
 import com.device.entity.DeviceWarnRecord;
 import com.device.entity.Page;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 @Repository
 public interface DeviceWarnRecordMapper {
     int deleteByPrimaryKey(Long id);
@@ -28,4 +30,6 @@ public interface DeviceWarnRecordMapper {
     List<DeviceWarnRecord> selectByPage(Page<DeviceWarnRecord> page);
 
     long selectCountByPage(Page<DeviceWarnRecord> page);
+
+    DeviceWarnRecord selectNewWarn(@Param("item") String item);
 }

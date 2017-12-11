@@ -3,11 +3,13 @@ package com.device.Helper;
 import com.device.dao.DeviceInfoMapper;
 import com.device.entity.DeviceInfo;
 import com.device.enums.DeviceStatus;
+import com.device.util.CheckUtil;
 import com.device.util.third.Constant;
+import com.google.gson.Gson;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttTopic;
+import org.eclipse.paho.client.mqttv3.MqttSecurityException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,9 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Description:
@@ -23,13 +28,15 @@ import java.util.List;
  */
 @Component
 public class MyClientMQTT {
+    private static final Gson gson = new Gson();
     private static final Logger logger = LoggerFactory.getLogger(MyClientMQTT.class);
     public static final String HOST = "tcp://" + Constant.MQTT_HOST_PORT;
-    private static final String clientid = "MyClient124";
+    private static final String clientid = "MyClient1189";
     private MqttClient client;
     private MqttConnectOptions options;
     private String userName = Constant.API_KEY;
     private String passWord = Constant.SECRET_KEY;
+    private ScheduledExecutorService scheduler;
 
     @Resource
     private DeviceInfoMapper deviceInfoMapper;
@@ -39,18 +46,51 @@ public class MyClientMQTT {
     public void start() {
         //查询运行状态的所有设备
         List<DeviceInfo> list = deviceInfoMapper.selectDeviceList(DeviceStatus.RUN.getCode());
-        for (DeviceInfo device : list) {
-            startMqtt(device.getDeviceUid());
+        String[] topicArray = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            topicArray[i] = Constant.API_KEY + "/v1/ms/" + list.get(i).getDeviceUid().toLowerCase() + "/reportuploadData"; //订阅主题 api_key/version/opType/uid/msgType
         }
-        System.out.println("启动 startMqtt !");
+        if (!CheckUtil.isEmpty(topicArray)) {
+            startMqtt(topicArray);
+            logger.info("启动 startMqtt !");
+        } else {
+            logger.info("没有设备开启mqtt监听");
+        }
     }
 
-    public void startMqtt(String deviceUID) {
-        try {
-            //String deviceUID = "A000F3F3";
-            String TOPIC = Constant.API_KEY + "/v1/ms/" + deviceUID.toLowerCase() + "/reportuploadData"; //订阅主题 api_key/version/opType/uid/msgType
-            logger.info("设备:{}|TOPIC:{}已启动监听", deviceUID, TOPIC);
+    //重新链接
+    public void startReconnect() {
+        scheduler = Executors.newSingleThreadScheduledExecutor();
+        scheduler.scheduleAtFixedRate(new Runnable() {
+            public void run() {
+                if (!client.isConnected()) {
+                    try {
+                        client.connect(options);
+                    } catch (MqttSecurityException e) {
+                        e.printStackTrace();
+                    } catch (MqttException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }, 0 * 1000, 10 * 1000, TimeUnit.MILLISECONDS);
+    }
 
+    //断开链接
+    public void disconnect() {
+        try {
+            client.disconnect();
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //启动
+    public void startMqtt(String[] topicArray) {
+        try {
+            for (String topicObj : topicArray) {
+                logger.info("TOPIC:{}已启动监听", topicObj);
+            }
             // host为主机名，clientid即连接MQTT的客户端ID，一般以唯一标识符表示，MemoryPersistence设置clientid的保存形式，默认为以内存保存
             client = new MqttClient(HOST, clientid, new MemoryPersistence());
 
@@ -68,26 +108,31 @@ public class MyClientMQTT {
             options.setKeepAliveInterval(20);
             // 设置回调
             client.setCallback(new PushCallback());
-            MqttTopic topic = client.getTopic(TOPIC);
+            //MqttTopic topicA = client.getTopic(topicArray[0]);
+            //MqttTopic topicB = client.getTopic(topicArray[1]);
             //setWill方法，如果项目中需要知道客户端是否掉线可以调用该方法。设置最终端口的通知消息
-            options.setWill(topic, "close".getBytes(), 2, true);
+            //options.setWill(topicA, "close".getBytes(), 2, true);
+            //options.setWill(topicB, "close".getBytes(), 2, true);
 
+            int[] Qos = new int[topicArray.length]; //{1, 1};
+            for (int i = 0; i < topicArray.length; i++) {
+                Qos[i] = 1;
+                options.setWill(client.getTopic(topicArray[i]), "close".getBytes(), 2, true);
+            }
             client.connect(options);
             //订阅消息
-            int[] Qos = {1};
-            String[] topic1 = {TOPIC};
-            client.subscribe(topic1, Qos);
+            client.subscribe(topicArray, Qos);
+
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
     public static void main(String[] args) throws MqttException {
-        MyClientMQTT client = new MyClientMQTT();
-        String deviceUid = "A000F3F3";
-        client.startMqtt(deviceUid);
+        //MyClientMQTT client = new MyClientMQTT();
+        //String deviceUid = "A000F3F3";
+        //client.startMqtt(deviceUid);
     }
 
 
