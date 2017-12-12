@@ -4,6 +4,7 @@ import com.device.dao.DeviceInfoMapper;
 import com.device.entity.DeviceInfo;
 import com.device.enums.DeviceStatus;
 import com.device.util.CheckUtil;
+import com.device.util.ErrorWriterUtil;
 import com.device.util.third.Constant;
 import com.google.gson.Gson;
 import org.eclipse.paho.client.mqttv3.MqttClient;
@@ -38,14 +39,18 @@ public class MyClientMQTT {
     private String passWord = Constant.SECRET_KEY;
     private ScheduledExecutorService scheduler;
 
+    public static MyClientMQTT myClientMQTT;
+
     @Resource
     private DeviceInfoMapper deviceInfoMapper;
+
 
     //启动定时器
     @PostConstruct
     public void start() {
+        myClientMQTT = this;
         //查询运行状态的所有设备
-        List<DeviceInfo> list = deviceInfoMapper.selectDeviceList(DeviceStatus.RUN.getCode());
+        /*List<DeviceInfo> list = deviceInfoMapper.selectDeviceList(DeviceStatus.RUN.getCode());
         String[] topicArray = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
             topicArray[i] = Constant.API_KEY + "/v1/ms/" + list.get(i).getDeviceUid().toLowerCase() + "/reportuploadData"; //订阅主题 api_key/version/opType/uid/msgType
@@ -55,7 +60,9 @@ public class MyClientMQTT {
             logger.info("启动 startMqtt !");
         } else {
             logger.info("没有设备开启mqtt监听");
-        }
+        }*/
+
+        startMqtt();
     }
 
     //重新链接
@@ -85,12 +92,31 @@ public class MyClientMQTT {
         }
     }
 
-    //启动
-    public void startMqtt(String[] topicArray) {
+    //退订(如果运行的设备被设置为禁止状态，则退订),暂废
+    public void unsubscribe(String[] topicArray) {
         try {
-            for (String topicObj : topicArray) {
-                logger.info("TOPIC:{}已启动监听", topicObj);
+            client.unsubscribe(topicArray);
+        } catch (MqttException e) {
+            logger.info("退订时异常:topicArray={}|error={}", gson.toJson(topicArray), ErrorWriterUtil.writeError(e));
+        }
+    }
+
+    //启动
+    public void startMqtt() {
+        try {
+            //查询运行状态的所有设备
+            List<DeviceInfo> list = myClientMQTT.deviceInfoMapper.selectDeviceList(DeviceStatus.RUN.getCode());
+            String[] topicArray = new String[list.size()];
+            if (!CheckUtil.isEmpty(list)) {
+                for (int i = 0; i < list.size(); i++) {
+                    topicArray[i] = Constant.API_KEY + "/v1/ms/" + list.get(i).getDeviceUid().toLowerCase() + "/reportuploadData"; //订阅主题 api_key/version/opType/uid/msgType
+                    logger.info("TOPIC:{}启动监听", topicArray[i]);
+                }
+            } else {
+                logger.info("没有设备开启mqtt监听");
+                return;
             }
+
             // host为主机名，clientid即连接MQTT的客户端ID，一般以唯一标识符表示，MemoryPersistence设置clientid的保存形式，默认为以内存保存
             client = new MqttClient(HOST, clientid, new MemoryPersistence());
 
@@ -123,11 +149,11 @@ public class MyClientMQTT {
             //订阅消息
             client.subscribe(topicArray, Qos);
 
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     public static void main(String[] args) throws MqttException {
         //MyClientMQTT client = new MyClientMQTT();

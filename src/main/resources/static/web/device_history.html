@@ -22,7 +22,7 @@
     </div>
     <div class="content_1">
         <div class="center">
-            <table id="gnInfo" class="deviceHistoryData info" cellpadding="0" cellspacing="0">
+            <table class="deviceHistoryData info" cellpadding="0" cellspacing="0">
                 <div class="airTitle title_info">
                     <img src="../img/history_2.png" /><span class="itemName">历史数据</span>
                 </div>
@@ -37,18 +37,43 @@
             </table>
             <!--加载更多按钮-->
             <div class="js-load-more">加载更多</div>
-            <!--<div class="bottom-menu">
-                <button class="statusBtn" onclick="window.location.href='status_list.html'">实时数据</button>
-                <button class="deviceWarnBtn" onclick="window.location.href='warn_list.html?item=冷库'">报警数据</button>
-                <button class="reportBtn" onclick="window.location.href='report.html?item=冷库'">报表数据</button>
-            </div>-->
-            <div class="bottom-menu title_info">
+            <!--<div class="bottom-menu title_info">
                 <ul>
                     <li class="statusData" onclick="window.location.href='status_list.html'"><img src="../img/status_1.png" /><br />实时数据</li>
                     <li class="historyData" onclick="window.location.href='device_history.html?item=冷库'"><img src="../img/history_1.png" /><br />历史记录</li>
                     <li class="warnData" onclick="window.location.href='warn_list.html?item=冷库'"><img src="../img/warn_1.png" /><br />报警数据</li>
                     <li class="reportData" onclick="window.location.href='report.html?item=冷库'"><img src="../img/report_1.png" /><br />报表数据</li>
                 </ul>
+            </div>-->
+            <div class="bottom-bar">
+                <div class="query-date-menu my1">
+                    <div class="query-date selected" onclick="window.location.href='device_history.html?item=冷库'">冷库数据</div>
+                    <div class="query-date" onclick="window.location.href='device_history.html?item=污水'">污水数据</div>
+                    <div class="query-date" onclick="window.location.href='device_history.html?item=水箱'">水箱数据</div>
+                    <div class="query-date" onclick="window.location.href='device_history.html?item=锅炉'">锅炉数据</div>
+                </div>
+                <div class="query-date-menu my2">
+                    <div class="query-date selected" onclick="window.location.href='report.html?item=冷库'">冷库报表</div>
+                    <div class="query-date" onclick="window.location.href='report.html?item=污水'">污水报表</div>
+                    <div class="query-date" onclick="window.location.href='report.html?item=水箱'">水箱报表</div>
+                    <div class="query-date" onclick="window.location.href='report.html?item=锅炉'">锅炉报表</div>
+                </div>
+                <table>
+                    <tr>
+                        <td class="statusData selected" onclick="window.location.href='status_list.html'">
+                            <img src="../img/status_1.png"><br /> 实时数据
+                        </td>
+                        <td class="historyData">
+                            <img src="../img/history_1.png"><br /> 历史记录
+                        </td>
+                        <td class="warnData" onclick="window.location.href='warn_list.html?item=冷库'">
+                            <img src="../img/warn_1.png"><br /> 报警数据
+                        </td>
+                        <td class="reportData">
+                            <img src="../img/report_1.png"><br /> 报表数据
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
@@ -59,12 +84,12 @@
 <script type="text/javascript">
     //<![CDATA[
     $(function () {
-        $(".bottom-menu li").removeClass('myActive');
-        $(".bottom-menu .historyData").addClass('myActive');
-        $(".bottom-menu .historyData img").attr('src', '../img/history_2.png');
+        $(".bottom-bar td").removeClass('myActive');
+        $(".bottom-bar .historyData").addClass('myActive');
+        $(".bottom-bar .historyData img").attr('src', '../img/history_2.png');
         var counter = 0;
         var pageStart = 0;
-        var pageSize = 15;
+        var pageSize = 8;
         /*首次加载*/
         getData(pageStart, pageSize);
         /*监听加载更多*/
@@ -104,6 +129,7 @@
                     if (num < total) {
                         $(".js-load-more").show();
                     } else {
+                        $(".deviceHistoryData").css("margin-bottom","52px");
                         $(".js-load-more").hide();
                     }
                 } else {

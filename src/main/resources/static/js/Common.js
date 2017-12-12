@@ -5,6 +5,24 @@
 
 //Data处理
 $(function () {
+    //底部二级菜单
+    $('.query-date-menu').hide();
+    $('.historyData').click(function() {
+        $('.my2').hide();
+        $(".my1").css('right','50%');
+        return $('.my1').toggle();
+    });
+    $('.reportData').click(function() {
+        $('.my1').hide();
+        $(".my2").css('right','0%');
+        return $('.my2').toggle();
+    });
+    $('.query-date').click(function() {
+        $('.query-date').not($(this)).removeClass('selected');
+        $(this).addClass('selected');
+        $('#query-date span').text($(this).text());
+    });
+    //时间处理
     Date.prototype.pattern = function (fmt) {
         var o = {
             "M+": this.getMonth() + 1, //月份
@@ -63,6 +81,7 @@ $(function () {
             }
         }
     });
+
 
 });
 

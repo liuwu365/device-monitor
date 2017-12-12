@@ -7,7 +7,7 @@ html{ -ms-text-size-adjust:100%; -webkit-text-size-adjust:100%; -webkit-backgrou
 .main .center{ height:auto; }
 .main .center .info{ width:100%; }
 .main .center .info .phone{ width:15px; }
-
+/*底部一级菜单*/
 .main .bottom-menu{position: fixed;bottom: 0px;text-align: center;}
 .main .bottom-menu ul{height: 100%;padding-top: 3px;}
 .main .bottom-menu ul li{width: 25%;height: 100%;float: left;list-style-type: none;font-size: 12px;color:darkgray;}
@@ -17,12 +17,12 @@ html{ -ms-text-size-adjust:100%; -webkit-text-size-adjust:100%; -webkit-backgrou
 .main .center .airTitle{ height:40px; background-color:#ECECEC; padding-left:12px; border-bottom:1px solid #D6D6D6; }
 .main .center .airTitle img{ width:28px; height:28px; vertical-align:middle; }
 .main .center .airTitle span{ margin-left:10px; vertical-align:middle; line-height:40px; font-size:15px; font-weight:bold; }
-table.info{ margin-top:10px; text-align:center; }
+table.info{ margin-top:10px; text-align:center;}
 table{ height:40px; font-size:13px; }
 table tr{ background:#F2F2F2; }
 table tr:nth-child(2n){ background:#FFFFFF; }
 table tr td{ height:35px; }
-.main .shang{ color:gray; float:left; width:100%; height:100%; text-align:center; }
+.main .shang{ color:dimgray; float:left; width:100%; height:100%; text-align:center; }
 .main .shang h1.title{ font-size:15px; font-family:"黑体-简"; font-weight:normal; position:relative; float:left; width:25%; height:100%; padding:10px 0; }
 .main .shang .hx{ position:absolute; float:left; width:90%; height:5px; border-radius:3px; bottom:0; margin:0 5% 10px; display:none; }
 .main .content_1, .content_2, .content_3, .content_4{ height:100%; }
@@ -38,4 +38,13 @@ div.title_info{ position:relative; }
 div.phoneDiv{ background:url("../img/icon_phone.png") no-repeat; background-position:center; background-size:15px 23px; }
 .myTitle{ font-size:15px; font-family:"黑体-简"; font-weight:normal; height:100%; padding-top:15px; text-align:center; }
 /*加载更多*/
-.js-load-more{ padding:0 15px; width:120px; height:30px; background-color:dodgerblue; color:#fff; line-height:30px; text-align:center; border-radius:5px; margin:20px auto; border:0 none; font-size:16px; display:none; }
+.js-load-more{ margin-bottom:80px !important;margin:20px auto;overflow-y:scroll;padding:0 15px; width:120px; height:30px; background-color:dodgerblue; color:#fff; line-height:30px; text-align:center; border-radius:5px; border:0 none; font-size:16px; display:none; }
+
+/*底部二级菜单*/
+.bottom-bar{ position: fixed; left: 0; right: 0; bottom: 0;}
+.bottom-bar table{ width: 100%; border-collapse: collapse;}
+.bottom-bar table td{ width: 25%; font-size:12px; padding-top: 3px; text-align: center; color: darkgray; background-color:#ECECEC;opacity:0.8;}
+.bottom-bar table td img{height: 25px;}
+.bottom-bar .query-date-menu{ position: absolute; width: 25%;/*right: 0%;*/ bottom: 100%; border: 1px solid #d7d7d7;}
+.bottom-bar .query-date-menu .query-date{ font-size: 0.9em; padding: 0.5em; text-align: center; background-color: #ffffff;}
+.bottom-bar .query-date-menu .query-date.selected, .bottom-bar .query-date-menu .query-date:active, .bottom-bar .query-date-menu .query-date.active{ background-color: #d7d7d7;}
