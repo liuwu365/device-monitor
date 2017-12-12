@@ -58,7 +58,7 @@
         <include refid="Base_Column_List"/>
         FROM device_run_record
         WHERE item = #{item}
-        ORDER BY date_time DESC
+        GROUP BY item,date_time DESC
         LIMIT 1
     </select>
     <select id="selectNewDatas" resultType="com.device.entity.DeviceRunRecord">
@@ -70,7 +70,7 @@
         <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
             #{item}
         </foreach>
-        ORDER BY date_time DESC
+        GROUP BY item,date_time DESC
         ) AS a
         GROUP BY a.item
     </select>
