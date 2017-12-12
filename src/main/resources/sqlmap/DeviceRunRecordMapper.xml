@@ -33,7 +33,7 @@
                 and d.item = #{filter.item}
             </if>
         </where>
-        ORDER BY d.date_time ASC
+        ORDER BY d.date_time DESC
     </select>
     <select id="selectByPage" resultType="com.device.entity.DeviceRunRecord">
         SELECT
@@ -50,7 +50,7 @@
                 and d.item = #{filter.item}
             </if>
         </where>
-        ORDER BY d.date_time ASC
+        ORDER BY d.date_time DESC
         limit #{offset}, #{limit}
     </select>
     <select id="selectNewData" resultType="com.device.entity.DeviceRunRecord">
