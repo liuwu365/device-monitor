@@ -61,8 +61,8 @@ public class ThirdController {
             Map filter = new HashMap();
             page.setLimit(limit);
             page.setOffset(offset);
-            page.setFilter(filter);
             filter.put("item", item);
+            page.setFilter(filter);
             page = deviceService.findPage(page);
             logger.info("select getDeviceHistoryData={}", gson.toJson(page));
             result = Result.success(page);

@@ -92,13 +92,13 @@
             type: "post",
             url: "/interface/getDeviceHistoryData.json",
             dataType: "json",
-            data: {item: item, offset: 0, limit: 10},
+            data: {item: item, offset: 0, limit: 15},
             success: function (res) {
                 console.log(res);
                 if (res != null && res != '' && res.code == 200) {
                     var data = res.t.result;
-                    for (var i in data) {
-                        coldDataTime.push(new Date(data[i].dateTime).pattern("yyyy-MM-dd HH:mm:ss"));
+                    for (var i = data.length - 1; i >= 0; i--) {
+                        coldDataTime.push(new Date(data[i].dateTime).pattern("HH:mm:ss"));
                         coldDataInfo.push(data[i].value);
                     }
                     var myChart1 = echarts.init(document.getElementById('main1'));
