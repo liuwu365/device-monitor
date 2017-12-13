@@ -4,6 +4,7 @@ import com.device.dao.DeviceInfoMapper;
 import com.device.entity.DeviceInfo;
 import com.device.enums.DeviceStatus;
 import com.device.util.CheckUtil;
+import com.device.util.DateUtil;
 import com.device.util.ErrorWriterUtil;
 import com.device.util.third.Constant;
 import com.google.gson.Gson;
@@ -32,7 +33,7 @@ public class MyClientMQTT {
     private static final Gson gson = new Gson();
     private static final Logger logger = LoggerFactory.getLogger(MyClientMQTT.class);
     public static final String HOST = "tcp://" + Constant.MQTT_HOST_PORT;
-    private static final String clientid = "MyClient1189";
+    private static final String clientid = "MyClient1189_";
     private MqttClient client;
     private MqttConnectOptions options;
     private String userName = Constant.API_KEY;
@@ -118,7 +119,7 @@ public class MyClientMQTT {
             }
 
             // host为主机名，clientid即连接MQTT的客户端ID，一般以唯一标识符表示，MemoryPersistence设置clientid的保存形式，默认为以内存保存
-            client = new MqttClient(HOST, clientid, new MemoryPersistence());
+            client = new MqttClient(HOST, clientid + DateUtil.nowIntTime(), new MemoryPersistence());
 
             // MQTT的连接设置
             options = new MqttConnectOptions();
