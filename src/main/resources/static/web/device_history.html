@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title></title>
     <meta name="format-detection" content="telephone=no" />
-    <meta http-equiv="x-rim-auto-match" content="none"/>
+    <meta http-equiv="x-rim-auto-match" content="none" />
     <meta http-equiv="pragram" content="no-cache" />
     <meta http-equiv="cache-control" content="no-cache, must-revalidate" />
     <meta http-equiv="expires" content="0" />
@@ -27,13 +27,6 @@
                     <img src="../img/history_2.png" /><span class="itemName">历史数据</span>
                 </div>
                 <div class="down"></div>
-                <tr co>
-                    <td>序号</td>
-                    <td>温度</td>
-                    <td>湿度</td>
-                    <td>设备时间</td>
-                    <!--<td>记录时间</td>-->
-                </tr>
             </table>
             <!--加载更多按钮-->
             <div class="js-load-more">加载更多</div>
@@ -114,13 +107,28 @@
                 if (res != null && res != '' && res.code == 200) {
                     $(".itemName").text(item + "历史数据");
                     var data = res.t.result;
+                    var postfix = "";   //温度 水位
+                    var postfix2 = "";  //湿度 等级
+                    var target = true;
                     var total = res.t.total;
                     num += data.length;
                     for (var i in data) {
+                        if (target) {
+                            if (data[i].item == '冷库' || data[i].item == '锅炉') {
+                                postfix = "℃";
+                                postfix2 = "";
+                                rowHtml += "<tr><td>序号</td><td>温度</td><td>湿度</td><td>设备时间</td></tr>";
+                            } else if (data[i].item == '污水' || data[i].item == '水箱') {
+                                postfix = "cm";
+                                postfix2 = "级";
+                                rowHtml += "<tr><td>序号</td><td>水位</td><td>等级</td><td>设备时间</td></tr>";
+                            }
+                            target = false;
+                        }
                         rowHtml += "<tr>";
                         rowHtml += "<td>" + data[i].id + "</td>";
-                        rowHtml += "<td>" + data[i].value + "℃</td>";
-                        rowHtml += "<td>" + data[i].value2 + "%</td>";
+                        rowHtml += "<td>" + data[i].value + postfix + "</td>";
+                        rowHtml += "<td>" + data[i].value2 + postfix2 + "</td>";
                         rowHtml += "<td>" + new Date(data[i].dateTime).pattern("yyyy-MM-dd HH:mm:ss") + "</td>";
                         //rowHtml += "<td>" + new Date(data[i].createTime).pattern("yyyy-MM-dd HH:mm:ss") + "</td>";
                         rowHtml += "</tr>";
@@ -129,7 +137,7 @@
                     if (num < total) {
                         $(".js-load-more").show();
                     } else {
-                        $(".deviceHistoryData").css("margin-bottom","52px");
+                        $(".deviceHistoryData").css("margin-bottom", "52px");
                         $(".js-load-more").hide();
                     }
                 } else {
