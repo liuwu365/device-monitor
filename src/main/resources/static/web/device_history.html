@@ -93,6 +93,9 @@
         });
     });
     var num = 0;
+    var target = true;
+    var postfix = "";   //温度 水位
+    var postfix2 = "";  //湿度 等级
     function getData(offset, size) {
         var item = getQueryString('item');
         $(".itemName").text("历史数据");
@@ -106,17 +109,14 @@
                 var rowHtml = "";
                 if (res != null && res != '' && res.code == 200) {
                     $(".itemName").text(item + "历史数据");
-                    var data = res.t.result;
-                    var postfix = "";   //温度 水位
-                    var postfix2 = "";  //湿度 等级
-                    var target = true;
                     var total = res.t.total;
+                    var data = res.t.result;
                     num += data.length;
                     for (var i in data) {
                         if (target) {
                             if (data[i].item == '冷库' || data[i].item == '锅炉') {
                                 postfix = "℃";
-                                postfix2 = "";
+                                postfix2 = "%";
                                 rowHtml += "<tr><td>序号</td><td>温度</td><td>湿度</td><td>设备时间</td></tr>";
                             } else if (data[i].item == '污水' || data[i].item == '水箱') {
                                 postfix = "cm";
