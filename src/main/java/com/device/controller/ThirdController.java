@@ -1,10 +1,12 @@
 package com.device.controller;
 
 import com.device.Helper.CommonHelper;
+import com.device.Helper.MyClientMQTT;
 import com.device.biz.DeviceService;
 import com.device.entity.*;
 import com.device.enums.ItemEnum;
 import com.device.enums.ItemType;
+import com.device.util.CheckUtil;
 import com.device.util.DateUtil;
 import com.device.util.ErrorWriterUtil;
 import com.device.util.third.AESHelper;
@@ -23,6 +25,7 @@ import java.util.*;
 public class ThirdController {
     private static final Gson gson = new Gson();
     private static final Logger logger = LoggerFactory.getLogger(ThirdController.class);
+    private static final MyClientMQTT myClientMQTT = MyClientMQTT.getInstance();
     @Resource
     private DeviceService deviceService;
 
@@ -94,6 +97,40 @@ public class ThirdController {
         } catch (Exception e) {
             result = Result.failure(ResultCode.SERVER_INTERNAL_ERROR);
             logger.error("getWarnRecordData error|ex={}", ErrorWriterUtil.writeError(e));
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/deviceSubscribe", method = RequestMethod.POST)
+    @ResponseBody
+    public Result deviceSubscribe(String deviceUid) {
+        Result result = new Result();
+        try {
+            if (CheckUtil.isEmpty(deviceUid)) {
+                return Result.failure(ResultCode.BAD_REQUEST);
+            }
+            myClientMQTT.subscribe(deviceUid);
+            result = Result.success();
+        } catch (Exception e) {
+            result = Result.failure(ResultCode.SERVER_INTERNAL_ERROR);
+            logger.error("deviceSubscribe error|ex={}", ErrorWriterUtil.writeError(e));
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/deviceUnSubscribe")
+    @ResponseBody
+    public Result deviceUnSubscribe(String deviceUid) {
+        Result result = new Result();
+        try {
+            if (CheckUtil.isEmpty(deviceUid)) {
+                return Result.failure(ResultCode.BAD_REQUEST);
+            }
+            myClientMQTT.unsubscribe(deviceUid);
+            result = Result.success();
+        } catch (Exception e) {
+            result = Result.failure(ResultCode.SERVER_INTERNAL_ERROR);
+            logger.error("deviceUnSubscribe error|ex={}", ErrorWriterUtil.writeError(e));
         }
         return result;
     }
