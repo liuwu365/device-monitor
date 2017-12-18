@@ -114,14 +114,14 @@ public class PushCallback implements MqttCallback {
             record.setCreateTime(new Date());
             record.setUpdateTime(new Date());
             pushCallback.deviceRunRecordMapper.insertSelective(record);
-            //是否存在未处理的最新报警,不存在插入报警记录,存在更新报警级别
+            //是否存在未处理的最新报警,不存在插入报警记录,存在更新最新的报警信息
             DeviceWarnRecord newWarn = pushCallback.deviceWarnRecordMapper.selectNewWarn(item);
             if (CheckUtil.isEmpty(newWarn)) {
                 //判断是否超过阀值,超过阀值添加报警记录,报警级别查询从高到低来比较
                 List<DeviceWarnRule> deviceWarnRuleList = pushCallback.deviceWarnRuleMapper.selectWarnRule(item, WarnRuleStatus.OPEN.getCode());
                 if (!CheckUtil.isEmpty(deviceWarnRuleList)) {
                     for (DeviceWarnRule warnRule : deviceWarnRuleList) {
-                        if (value >= warnRule.getMinValue() && value <= warnRule.getMaxValue()) {
+                        if ((value >= warnRule.getMinValue() && value <= warnRule.getMaxValue()) || value > warnRule.getMaxValue()) {
                             DeviceWarnRecord warnRecord = new DeviceWarnRecord();
                             warnRecord.setDeviceId(deviceId);
                             warnRecord.setItem(item);
@@ -137,11 +137,12 @@ public class PushCallback implements MqttCallback {
                     }
                 }
             } else {
+                //从最高级别报警规则匹配
                 List<DeviceWarnRule> deviceWarnRuleList = pushCallback.deviceWarnRuleMapper.selectWarnRule(item, WarnRuleStatus.OPEN.getCode());
                 if (!CheckUtil.isEmpty(deviceWarnRuleList)) {
                     boolean target = false;
                     for (DeviceWarnRule warnRule : deviceWarnRuleList) {
-                        if (value >= warnRule.getMinValue() && value <= warnRule.getMaxValue()) {
+                        if ((value >= warnRule.getMinValue() && value <= warnRule.getMaxValue()) || value > warnRule.getMaxValue()) {
                             DeviceWarnRecord warnRecord = new DeviceWarnRecord();
                             warnRecord.setId(newWarn.getId());
                             warnRecord.setValue(value);
@@ -153,7 +154,7 @@ public class PushCallback implements MqttCallback {
                             break;
                         }
                     }
-                    //解除警报(最新设备数据值回到了正常范围)
+                    //都没有匹配上,解除警报(最新设备数据值回到了正常范围)
                     if (!target) {
                         DeviceWarnRecord warnRecord = new DeviceWarnRecord();
                         warnRecord.setId(newWarn.getId());
