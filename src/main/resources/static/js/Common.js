@@ -9,12 +9,10 @@ $(function () {
     $('.query-date-menu').hide();
     $('.historyData').click(function() {
         $('.my2').hide();
-        $(".my1").css('right','50%');
         return $('.my1').toggle();
     });
     $('.reportData').click(function() {
         $('.my1').hide();
-        $(".my2").css('right','0%');
         return $('.my2').toggle();
     });
     $('.query-date').click(function() {

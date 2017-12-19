@@ -42,9 +42,11 @@ div.phoneDiv{ background:url("../img/icon_phone.png") no-repeat; background-posi
 
 /*底部二级菜单*/
 .bottom-bar{ position: fixed; left: 0; right: 0; bottom: 0;}
+.bottom-bar .my1{ right:50%; }
+.bottom-bar .my2{ right:0; }
 .bottom-bar table{ width: 100%; border-collapse: collapse;}
 .bottom-bar table td{ width: 25%; font-size:12px; padding-top: 3px; text-align: center; color: darkgray; background-color:#ECECEC;opacity:0.8;}
 .bottom-bar table td img{height: 25px;}
-.bottom-bar .query-date-menu{ position: absolute; width: 25%;/*right: 0%;*/ bottom: 100%; border: 1px solid #d7d7d7;}
+.bottom-bar .query-date-menu{ display:none; position:absolute; width:25%; bottom:100%; border:1px solid #d7d7d7; }
 .bottom-bar .query-date-menu .query-date{ font-size: 0.9em; padding: 0.5em; text-align: center; background-color: #ffffff;}
 .bottom-bar .query-date-menu .query-date.selected, .bottom-bar .query-date-menu .query-date:active, .bottom-bar .query-date-menu .query-date.active{ background-color: #d7d7d7;}
