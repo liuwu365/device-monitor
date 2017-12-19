@@ -170,7 +170,7 @@
                         rowHtml += "<td>" + data[i].id + "</td>";
                         rowHtml += "<td>" + data[i].value + (warnTypePrefix == '温度' ? '℃' : 'cm') + "</td>";
                         rowHtml += "<td>" + warnTypePrefix + (data[i].warnType == 1 ? '偏低' : '偏高') + "</td>";
-                        rowHtml += "<td>" + new Date(data[i].createTime).pattern("yyyy-MM-dd HH:mm:ss") + "</td>";
+                        rowHtml += "<td>" + new Date(data[i].updateTime).pattern("yyyy-MM-dd HH:mm:ss") + "</td>";
                         rowHtml += "<td>" + (data[i].status == 1 ? '待处理' : data[i].status == 2 ? '处理中' : data[i].status == 3 ? '人工已处理' : '系统已处理') + "</td>";
                         rowHtml += "</tr>";
                     }
