@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="x-rim-auto-match" content="none" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" />
+    <link rel="stylesheet" href="../css/default.css" />
+</head>
+<body>
+<div class="main">
+    <div class="top">
+        <!--TAB页面标签-->
+        <div class="shang">
+            <h1 class="myTitle whiteColor" id="title_1">实时数据<p class="hx" id="hx_1"></p></h1>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="content_1">
+        <div class="center">
+            <div id="mainDiv" style="width: 100%;height: 300px;border:1px solid #67b168;"></div>
+            <div id="mainDiv2" style="width: 50%;height: 180px;border:1px solid gray;float: left;"></div>
+            <div id="mainDiv3" style="width: 50%;height: 180px;border:1px solid gray;float: left;"></div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../js/lib/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../js/Common.js"></script>
+<script type="text/javascript" src="../js/lib/echarts.min.js"></script>
+<script type="application/javascript">
+    //<![CDATA[
+    $(function () {
+        var myChart1 = echarts.init(document.getElementById("mainDiv"));
+        var option1 = {
+            tooltip: {
+                formatter: "{a} <br/>{b} : {c}%"
+            },
+            toolbox: {
+                feature: {
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            series: [{
+                name: '业务指标',
+                type: 'gauge',
+                detail: {
+                    formatter: '{value}%',
+                    offsetCenter: [0, '25%'],
+                    textStyle: {
+                        fontSize: 20
+                    }
+                },
+                data: [{value: 50, name: '完成率'}]
+            }]
+        };
+        setInterval(function () {
+            option1.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0;
+            myChart1.setOption(option1, true);
+        }, 2000);
+
+
+        var myChart2 = echarts.init(document.getElementById("mainDiv2"));
+        var myChart3 = echarts.init(document.getElementById("mainDiv3"));
+        var option2 = {
+            //提示框组件。开发实际中去掉了指针，提示框可以不用设置。
+            tooltip: {
+                formatter: "{a} <br/>{b} : {c}%"
+            },
+            //工具栏。本次好像也没用到，刷新，下载，我觉得还是挺实用的，具体开需求！
+            toolbox: {
+                feature: {
+                    restore: {},
+                    saveAsImage: {}
+                }
+            },
+            //下面属性才是仪表盘的核心！！反正我是这么认为的！！！
+            series: [{
+                //类型
+                type: 'gauge',
+                //半径
+                radius: 90,
+                //起始角度。圆心 正右手侧为0度，正上方为90度，正左手侧为180度。
+                startAngle: 180,
+                //结束角度。
+                endAngle: 0,
+                center: ['50%', '80%'],
+                //仪表盘轴线相关配置。
+                axisLine: {
+                    show: true,
+                    // 属性lineStyle控制线条样式
+                    lineStyle: {
+                        width: 30,
+                        color: [[1, '#63869e']]
+                    }
+                },
+                //分隔线样式。
+                splitLine: {
+                    show: false,
+                },
+                //刻度样式。
+                axisTick: {
+                    show: false,
+                },
+                //刻度标签。
+                axisLabel: {
+                    show: false,
+                },
+                //仪表盘指针。
+                pointer: {
+                    //这个show属性好像有问题，因为在这次开发中，需要去掉指正，我设置false的时候，还是显示指针，估计是BUG吧，我用的echarts-3.2.3；希望改进。最终，我把width属性设置为0，成功搞定！
+                    show: true,
+                    //指针长度
+                    length: '90%',
+                    width: 5,
+                },
+                //仪表盘标题。
+                title: {
+                    show: true,
+                    offsetCenter: [0, '-45%'], // x, y，单位px
+                    textStyle: {
+                        color: '#hhh',
+                        fontSize: 20
+                    }
+                },
+                //仪表盘详情，用于显示数据。
+                detail: {
+                    show: true,
+                    offsetCenter: [0, '20%'],
+                    formatter: '{value}%',
+                    textStyle: {
+                        fontSize: 20
+                    }
+                },
+                data: [{
+                    value: 0,
+                    name: '存储量'
+                }]
+            }]
+        };
+        myChart2.setOption(option2);
+        myChart3.setOption(option2);
+        //设置定时，加载随机数据，可以直观显示
+        setInterval(function () {
+            var random = (Math.random() * 100).toFixed(2);
+            var color = [[random / 100, '#63869e'], [1, '#c23531']];
+            option2.series[0].axisLine.lineStyle.color = color;
+            option2.series[0].data[0].value = random;
+            myChart2.setOption(option2, true);
+            myChart3.setOption(option2, true);
+        }, 1000)
+    });
+    //]]>
+</script>
+</html>

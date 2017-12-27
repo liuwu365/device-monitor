@@ -63,17 +63,9 @@ public class PushCallback implements MqttCallback {
 
     public void messageArrived(String topic, MqttMessage message) throws Exception {
         // subscribe后得到的消息会执行到这里面
-        //logger.info("接收消息主题 : " + topic);
-        //logger.info("接收消息Qos : " + message.getQos());
         logger.info("接收消息内容 : " + new String(message.getPayload()));
         dataHandle(new String(message.getPayload()));
     }
-
-    //@PostConstruct
-    //private void aa() {
-    //    String dataJson = "{    \"msgDirect\": \"report\",    \"msgPriority\": \"normal\",    \"msgType\": \"real\",    \"msgId\": \"0\",    \"apTime\": \"1512121574\",    \"msgEncrypt\": \"none\",    \"msgCmd\": \"ms\",    \"msgUid\": \"ffff009d\",    \"apUid\": \"700001fa\",    \"msgParam\": {        \"subCmd\": \"report\",        \"subType\": \"uploadData\",        \"msUid\": \"a000f3f3\",        \"data\": \"18093d\"    }}";
-    //    dataHandle(dataJson);
-    //}
 
     private void dataHandle(String dataJson) {
         try {
