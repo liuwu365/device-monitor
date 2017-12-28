@@ -6,6 +6,7 @@ import com.device.biz.DeviceService;
 import com.device.entity.*;
 import com.device.enums.ItemEnum;
 import com.device.enums.ItemType;
+import com.device.listener.WebSocketListener;
 import com.device.util.CheckUtil;
 import com.device.util.DateUtil;
 import com.device.util.ErrorWriterUtil;
@@ -26,8 +27,12 @@ public class ThirdController {
     private static final Gson gson = new Gson();
     private static final Logger logger = LoggerFactory.getLogger(ThirdController.class);
     private static final MyClientMQTT myClientMQTT = MyClientMQTT.getInstance();
+    private static final WebSocketListener webSocket = WebSocketListener.getInstance();
+    private boolean isRun = false; //是否在执行webSocket
+
     @Resource
     private DeviceService deviceService;
+
 
     @RequestMapping(value = "/getDeviceNewData")
     @ResponseBody
@@ -131,6 +136,27 @@ public class ThirdController {
         } catch (Exception e) {
             result = Result.failure(ResultCode.SERVER_INTERNAL_ERROR);
             logger.error("deviceUnSubscribe error|ex={}", ErrorWriterUtil.writeError(e));
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/testWebSocket")
+    @ResponseBody
+    public Result testWebSocket() {
+        Result result = new Result();
+        try {
+            if (!isRun) {
+                isRun = true;
+                for (int i = 0; i < 1000; i++) {
+                    webSocket.sendMessage("第" + i + "次发送实时数据");
+                    Thread.sleep(1000);
+                }
+                isRun = false;
+            }
+            result = Result.success();
+        } catch (Exception e) {
+            result = Result.failure(ResultCode.SERVER_INTERNAL_ERROR);
+            logger.error("testWebSocket error|ex={}", ErrorWriterUtil.writeError(e));
         }
         return result;
     }
