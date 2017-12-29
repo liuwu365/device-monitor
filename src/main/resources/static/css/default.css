@@ -1,27 +1,38 @@
 @charset "UTF-8";
 *{ margin:0px; padding:0px; -webkit-box-sizing:border-box; -moz-box-sizing:border-box; box-sizing:border-box; }
 html{ -ms-text-size-adjust:100%; -webkit-text-size-adjust:100%; -webkit-background-size:cover; -moz-background-size:cover; -o-background-size:cover; background-size:cover; }
-.main{}
+.main{ }
 .main .top{ height:48px; background-color:deepskyblue; }
 .main .top h2{ text-align:center; color:#125D92; }
 .main .center{ height:auto; }
 .main .center .info{ width:100%; }
 .main .center .info .phone{ width:15px; }
 /*底部一级菜单*/
-.main .bottom-menu{position: fixed;bottom: 0px;text-align: center;}
-.main .bottom-menu ul{height: 100%;padding-top: 3px;}
-.main .bottom-menu ul li{width: 25%;height: 100%;float: left;list-style-type: none;font-size: 12px;color:darkgray;}
-.main .bottom-menu ul li img{height: 25px;}
-.myActive{color: dodgerblue !important;}
-
+.main .bottom-menu{ position:fixed; bottom:0px; text-align:center; }
+.main .bottom-menu ul{ height:100%; padding-top:3px; }
+.main .bottom-menu ul li{ width:25%; height:100%; float:left; list-style-type:none; font-size:12px; color:darkgray; }
+.main .bottom-menu ul li img{ height:25px; }
+.myActive{ color:dodgerblue !important; }
+/*内容区*/
 .main .center .airTitle{ height:40px; background-color:#ECECEC; padding-left:12px; border-bottom:1px solid #D6D6D6; }
 .main .center .airTitle img{ width:28px; height:28px; vertical-align:middle; }
 .main .center .airTitle span{ margin-left:10px; vertical-align:middle; line-height:40px; font-size:15px; font-weight:bold; }
-table.info{ margin-top:10px; text-align:center;}
-table{ height:40px; font-size:13px; }
-table tr{ background:#F2F2F2; }
-table tr:nth-child(2n){ background:#FFFFFF; }
-table tr td{ height:35px; }
+.main .center .banner{ height:150px; border:1px solid black; }
+.main .center .itemTable{ position:absolute;height:350px; border-collapse:collapse; border:0 solid #999; table-layout:fixed; }
+.main .center .itemTable .title{text-align:left;font-size:24px;font-weight:bold;}
+.main .center .itemTable .overflow{overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.main .center .itemTable td{ width:33%; text-align:center; border-top:0; border-right:1px solid #999; border-bottom:1px solid #999; border-left:0; }
+.main .center .itemTable tr.lastRow td{ border-bottom:0; }
+.main .center .itemTable tr td.lastCol{ border-right:0; }
+.main .center .itemTable tr td.noBorder{ border:0; }
+.main .center .itemTable td img{ height:50px; }
+.main .center .itemTable .wrap{ width:50px; margin-bottom:10px; position:relative; }
+.main .center .itemTable .notice{ width:20px; height:20px; line-height:20px; font-size:10px; color:#fff; text-align:center; background-color:#f00; border-radius:50%; position:absolute; right:-25px; top:-60px; }
+/*.main .center table.info{ margin-top:10px; text-align:center;}*/
+/*.main .center table{ height:40px; font-size:13px; }*/
+/*.main .center table tr{ background:#F2F2F2; }*/
+/*.main .center table tr:nth-child(2n){ background:#FFFFFF; }*/
+/*.main .center table tr td{ height:35px; }*/
 .main .shang{ color:dimgray; float:left; width:100%; height:100%; text-align:center; }
 .main .shang h1.title{ font-size:15px; font-family:"黑体-简"; font-weight:normal; position:relative; float:left; width:25%; height:100%; padding:10px 0; }
 .main .shang .hx{ position:absolute; float:left; width:90%; height:5px; border-radius:3px; bottom:0; margin:0 5% 10px; display:none; }
@@ -35,18 +46,17 @@ div.down{ position:relative; }
 div.down::before{ width:0; height:0; content:""; border-top:9px solid #D6D6D6; border-left:9px solid transparent; border-right:9px solid transparent; position:absolute; top:-1px; left:50px; }
 div.down::after{ width:0; height:0; content:""; border-top:8px solid #ECECEC; border-left:8px solid transparent; border-right:8px solid transparent; position:absolute; top:-1px; left:51px; }
 div.title_info{ position:relative; }
-div.phoneDiv{ background:url("../img/icon_phone.png") no-repeat; background-position:center; background-size:15px 23px; }
+div.phoneDiv{ background:url("../img/icon_phone.png") no-repeat center; background-size:15px 23px; }
 .myTitle{ font-size:15px; font-family:"黑体-简"; font-weight:normal; height:100%; padding-top:15px; text-align:center; }
 /*加载更多*/
-.js-load-more{ margin-bottom:80px !important;margin:20px auto;overflow-y:scroll;padding:0 15px; width:120px; height:30px; background-color:dodgerblue; color:#fff; line-height:30px; text-align:center; border-radius:5px; border:0 none; font-size:16px; display:none; }
-
+.js-load-more{ margin-bottom:80px !important; margin:20px auto; overflow-y:scroll; padding:0 15px; width:120px; height:30px; background-color:dodgerblue; color:#fff; line-height:30px; text-align:center; border-radius:5px; border:0 none; font-size:16px; display:none; }
 /*底部二级菜单*/
-.bottom-bar{ position: fixed; left: 0; right: 0; bottom: 0;}
+.bottom-bar{ position:fixed; left:0; right:0; bottom:0; }
 .bottom-bar .my1{ right:50%; }
 .bottom-bar .my2{ right:0; }
-.bottom-bar table{ width: 100%; border-collapse: collapse;}
-.bottom-bar table td{ width: 25%; font-size:12px; padding-top: 3px; text-align: center; color: darkgray; background-color:#ECECEC;opacity:0.8;}
-.bottom-bar table td img{height: 25px;}
+.bottom-bar table{ width:100%; border-collapse:collapse; }
+.bottom-bar table td{ width:25%; font-size:12px; padding-top:3px; text-align:center; color:darkgray; background-color:#ECECEC; opacity:0.8; }
+.bottom-bar table td img{ height:25px; }
 .bottom-bar .query-date-menu{ display:none; position:absolute; width:25%; bottom:100%; border:1px solid #d7d7d7; }
-.bottom-bar .query-date-menu .query-date{ font-size: 0.9em; padding: 0.5em; text-align: center; background-color: #ffffff;}
-.bottom-bar .query-date-menu .query-date.selected, .bottom-bar .query-date-menu .query-date:active, .bottom-bar .query-date-menu .query-date.active{ background-color: #d7d7d7;}
+.bottom-bar .query-date-menu .query-date{ font-size:0.9em; padding:0.5em; text-align:center; background-color:#ffffff; }
+.bottom-bar .query-date-menu .query-date.selected, .bottom-bar .query-date-menu .query-date:active, .bottom-bar .query-date-menu .query-date.active{ background-color:#d7d7d7; }

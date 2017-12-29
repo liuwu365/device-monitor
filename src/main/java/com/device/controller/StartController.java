@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class StartController {
     private static final Logger logger = LoggerFactory.getLogger(StartController.class);
 
-    private final String loginPage = "web/login";
+    private final String loginPage = "web/index";
 
     @RequestMapping(value = {"", "/", "/login"}, method = RequestMethod.GET)
     public String toLoginPage() {
