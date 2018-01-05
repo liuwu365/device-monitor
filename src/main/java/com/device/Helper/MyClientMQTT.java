@@ -54,7 +54,7 @@ public class MyClientMQTT {
 
 
     //启动定时器
-    @PostConstruct
+    //@PostConstruct
     public void start() {
         myClientMQTT = this;
         //查询运行状态的所有设备

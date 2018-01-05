@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="x-rim-auto-match" content="none" />
+    <meta http-equiv="pragram" content="no-cache" />
+    <meta http-equiv="cache-control" content="no-cache, must-revalidate" />
+    <meta http-equiv="expires" content="0" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" id="viewport" />
+    <link rel="stylesheet" href="../css/default.css" />
+    <style type="text/css">
+        #main1{ width:100%; height:350px; padding:2%; }
+    </style>
+</head>
+<body>
+<div class="main">
+    <div class="top">
+        <div class="shang">
+            <h1 class="title" style="width:45%" id="title_1">Boiler Alarm Date<p class="hx" id="hx_1"></p></h1>
+            <h1 class="title" style="width:55%" id="title_2">Boiler history temperature<p class="hx" id="hx_2"></p></h1>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+    <div class="content_1">
+        <div class="center">
+            <div class="currentWarn">
+                <div class="airTitle title_info">
+                    <img src="../img/warn_2.png" /><span>当前报警</span>
+                </div>
+                <div class="down"></div>
+                <table class="tableInfo" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td>序号</td>
+                        <td>温度</td>
+                        <td>报警类型</td>
+                        <td>时间</td>
+                        <td>处理状态</td>
+                    </tr>
+                    <tr>
+                        <td>10001</td>
+                        <td>6℃</td>
+                        <td>温度偏高</td>
+                        <td>2017-10-11 22:11:12</td>
+                        <td>待处理</td>
+                    </tr>
+                    <tr>
+                        <td>10001</td>
+                        <td>-60℃</td>
+                        <td>温度偏低</td>
+                        <td>2017-10-11 22:11:12</td>
+                        <td>待处理</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="historyWarn">
+                <div class="airTitle title_info">
+                    <img src="../img/history_2.png" /><span>历史报警</span>
+                </div>
+                <div class="down"></div>
+                <table class="tableInfo" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td>序号</td>
+                        <td>温度</td>
+                        <td>报警类型</td>
+                        <td>时间</td>
+                        <td>处理状态</td>
+                    </tr>
+                    <tr>
+                        <td>10001</td>
+                        <td>6℃</td>
+                        <td>温度偏高</td>
+                        <td>2017-10-11 22:11:12</td>
+                        <td>待处理</td>
+                    </tr>
+                    <tr>
+                        <td>10001</td>
+                        <td>-60℃</td>
+                        <td>温度偏低</td>
+                        <td>2017-10-11 22:11:12</td>
+                        <td>待处理</td>
+                    </tr>
+                    <tr>
+                        <td>10001</td>
+                        <td>-60℃</td>
+                        <td>温度偏低</td>
+                        <td>2017-10-11 22:11:12</td>
+                        <td>待处理</td>
+                    </tr>
+                    <tr>
+                        <td>10001</td>
+                        <td>-60℃</td>
+                        <td>温度偏低</td>
+                        <td>2017-10-11 22:11:12</td>
+                        <td>待处理</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="content_2">
+        <div class="center">
+            <div id="main1"></div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="../js/lib/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="../js/TabChange.js"></script>
+<script type="text/javascript" src="../js/Common.js"></script>
+<script type="text/javascript" src="../js/lib/echarts.common.min.js"></script>
+<script type="application/javascript">
+    //<![CDATA[
+    $(function () {
+        var myChart1 = echarts.init(document.getElementById('main1'));
+        var option1 = {
+            title: {
+                text: '冷库报表'
+            },
+            tooltip: {},
+            legend: {
+                data: ['冷库']
+            },
+            xAxis: {
+                data: ["8:00", "8:30", "9:00", "9:30", "10:00", "10:30", "11:00", "11:30"]
+            },
+            yAxis: {},
+            series: [{
+                name: '冷库',
+                type: 'line',
+                data: [15, 20, 22, 25, 23, 20, 21, 22]
+            }]
+        };
+        myChart1.setOption(option1);
+    });
+    //]]>
+</script>
+</html>
