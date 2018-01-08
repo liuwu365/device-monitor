@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Description:
+ * @Description: 数据解析
  * @Date: 2017-12-01 18:48
  */
 public class CommonHelper {

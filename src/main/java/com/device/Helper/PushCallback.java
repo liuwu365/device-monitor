@@ -86,10 +86,10 @@ public class PushCallback implements MqttCallback {
                 if (!CheckUtil.isEmpty(uploadData)) {
                     DeviceInfo deviceInfo = pushCallback.deviceInfoMapper.selectByDeviceUid(deviceUid.toUpperCase());
                     int deviceType = CommonHelper.getItemType(deviceInfo.getItem());
-                    if (deviceType == ItemType.TEMPERATURE.getCode()) {
+                    if (deviceType == ItemType.TEMPERATURE.getCode()) { //温湿度数据处理
                         Humiture entity = CommonHelper.upDataHandle(uploadData);
                         addDeviceData(deviceInfo.getId(), deviceInfo.getItem(), entity.getTemperature(), entity.getHumidity(), uploadTime);
-                    } else if (deviceType == ItemType.WATER.getCode()) {
+                    } else if (deviceType == ItemType.WATER.getCode()) { //水位数据处理
                         Water entity = CommonHelper.upDataHandle2(uploadData);
                         addDeviceData(deviceInfo.getId(), deviceInfo.getItem(), entity.getWaterHeight(), entity.getLevel(), uploadTime);
                     }
