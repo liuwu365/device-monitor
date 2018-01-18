@@ -6,7 +6,7 @@
     <groupId>device-monitor</groupId>
     <artifactId>device-monitor</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>device-monitor</name>
     <description>Demo project for Spring Boot</description>
