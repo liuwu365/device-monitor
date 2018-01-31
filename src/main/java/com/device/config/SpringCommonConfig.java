@@ -7,8 +7,12 @@ import org.springframework.boot.autoconfigure.web.DispatcherServletAutoConfigura
 import org.springframework.boot.autoconfigure.web.EmbeddedServletContainerAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.MultipartAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.ServerPropertiesAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
+
+import javax.servlet.Filter;
+import javax.servlet.http.HttpSessionListener;
 
 /**
  * @ClassName: SpringCommonConfig
@@ -18,6 +22,7 @@ import org.springframework.context.annotation.ImportResource;
  * @date: 2017-05-04 16:16:55
  */
 @ImportResource({
+        "classpath:net/bull/javamelody/monitoring-spring-datasource.xml",
         "classpath:application-context.xml"
 })
 @Import({ServerPropertiesAutoConfiguration.class,
@@ -26,5 +31,13 @@ import org.springframework.context.annotation.ImportResource;
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, MultipartAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class})
 public class SpringCommonConfig {
 
+    @Bean
+    public HttpSessionListener javaMelodyListener(){
+        return new net.bull.javamelody.SessionListener();
+    }
 
+    @Bean
+    public Filter javaMelodyFilter(){
+        return new net.bull.javamelody.MonitoringFilter();
+    }
 }
