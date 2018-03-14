@@ -52,7 +52,7 @@ public class CommonHelper {
         //十六进制-->二进制
         String two = DigitalTrans.hexStringToBinary(updata);
         //获取首位 0正数 1负数
-        char first = two.charAt(0);
+        int first = Integer.parseInt(two.substring(0,1));
         if (first == 0) {
             isPositive = true;
         } else if (first == 1) {
